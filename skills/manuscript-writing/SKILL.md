@@ -11,7 +11,7 @@ Help the authors turn their material into a publication-ready paper. The authors
 
 ## Two modes
 
-- **Quick mode**, for minor, local requests: polish or proofread a paragraph, a section or a few sentences, fix the wording of a definition, shorten an abstract. Skip the inventory, the planning file and the story/outline step (§1–§3). Still read the project's conventions (§0.1) and the surrounding text, apply the hard rules (§5) and the writing style (§6), build if the project can be built (§9), and summarise what changed. If the edit flow isn't recorded, don't stop to ask: show the change in chat as in "propose first" and apply it once approved. If the request turns out to need more (missing material, structural problems), say so and offer the full workflow.
+- **Quick mode**, for minor, local requests: polish or proofread a paragraph, a section or a few sentences, fix the wording of a definition, shorten an abstract. Skip the inventory, the planning file and the story/outline step (§1–§3). Still read the project's conventions (§0.1) and the surrounding text, apply the hard rules (§5) and the writing style (§6), build if the project can be built (§9), and summarise what changed. If the edit flow isn't recorded, don't stop to ask: propose the change in chat one paragraph at a time and apply it once approved; mechanical fixes (typos, spacing, one spelling variant) across the section can go in one grouped proposal, as in §4. If the request turns out to need more (missing material, structural problems), say so and offer the full workflow.
 - **Full workflow** (§0–§11), for drafting from notes, restructuring, or work across several sections.
 
 When unclear, choose quick mode for requests about a single paragraph or section, and ask otherwise.
@@ -24,7 +24,7 @@ When unclear, choose quick mode for requests about a single paragraph or section
    - existing macros, theorem environments, glossary/acronym commands, label prefixes;
    - comment/review macros (e.g. per-author note commands, `\TODO`) and which material is parked (e.g. a file not included in `main.tex`). This skill writes gaps as `\TODO{...}`: use the project's own TODO macro if it has one under another name; if it has none, propose adding `\newcommand{\TODO}[1]{\textcolor{red}{[TODO: #1]}}` (needs `xcolor`) to the preamble, and until it is approved use `% TODO: ...` comments, so the build never breaks on an undefined macro;
    - how to build the paper (command, TeX version) and where the sources are also edited (Overleaf?). If co-authors edit elsewhere, pull first; stop and ask on merge conflicts. After pulling, check what changed against `PAPER_PLAN.md` (§2).
-2. **Ask few questions up front.** Unless already recorded in `PAPER_PLAN.md`, ask only the **edit flow**: "Write into the files, I review with `git diff`" or "Propose in chat first, apply after approval" (without git, recommend the second, or a backup copy). Ask the other settings when they first matter, then record them so each is asked once:
+2. **Ask few questions up front.** Unless already recorded in `PAPER_PLAN.md`, ask only the **edit flow**: "Write into the files, I review with `git diff`", "Propose in chat, one paragraph at a time", or "Propose in chat, one section at a time" (without git, recommend a "propose" option, or a backup copy). Ask the other settings when they first matter, then record them so each is asked once:
    - target venue and audience: when drafting the outline or the abstract (they set length, depth and tone);
    - git handling of `PAPER_PLAN.md`: when first creating it (§2);
    - whether addressed TODOs may be removed: at the first addressed TODO (§4);
@@ -50,7 +50,7 @@ Short (aim for under ~100 lines), in the project root; it survives interrupted s
 - **Status**: per section: state, chosen intensity (§4), open TODOs; in a git repo, the commit the status reflects.
 - **Open questions**: for the authors or co-authors, one line each; move to the status line once answered.
 
-When you create `PAPER_PLAN.md`, or change its story or outline, summarise it briefly in chat: the story in one or two sentences, the contribution list, the outline (one line per section), and only the open questions that block the next step. This summary is the proposal to agree on in §3. Then say that the full plan (notation, status, all open questions) is in `PAPER_PLAN.md`, and that the user can discuss any part in more detail or edit the file directly. Don't paste the whole file.
+When you create `PAPER_PLAN.md`, or change its story or outline, summarise in chat the story (one or two sentences), the contribution list, the outline (one line per section) and only the blocking open questions: this is the proposal to agree on in §3. Say the full plan is in the file, which the user can discuss or edit directly; don't paste it.
 
 When a session resumes from an existing `PAPER_PLAN.md`, read it first and open with a one-line status (e.g. "Resuming: Section 3 drafted, Section 4 next, 2 open questions"). The file as you find it is the reference, including any edits the user made directly.
 
@@ -68,14 +68,8 @@ If the request covers a single section, agreeing on that section's outline is en
 - **Keep the authors' math, claims and voice.** Use the most finished sections as a style sample: sentence length, "we" vs passive, how results and references are introduced. Translate notes in other languages into the paper's language.
 - **Gaps become `\TODO{...}`** saying what is missing (a number, a proof step, a reference, a figure), never filler or plausible-sounding content.
 - **TODOs as material.** Sort TODOs into those that can be written from the existing material and those that need the authors (new results, experiments, decisions, missing data). Write the first kind like any other text, at the section's chosen intensity; list the second kind under "Open questions". Ask once whether addressed TODOs may be removed after drafting, or left for the user to remove (default: leave them). Raw notes in `%` comments that have been turned into prose follow the same setting.
-- **Replies to co-author comments.** When an edit fixes an issue raised in a co-author's comment, or answers it, add a brief reply next to the comment saying what was done or answering the question (e.g. "Done: rewritten as suggested, now uses Definition 2"). Never remove or edit the co-author's comment unless asked. Ask once how replies are written, matching what the project already uses, e.g.:
-  - the project's own author-note macro (e.g. `\AB{...}` for author AB);
-  - `todonotes` (`\todo[inline]{...}`) or `changes` (`\added`, `\replaced`, `\comment`);
-  - colored text (`\textcolor{blue}{...}`) or another per-author color macro;
-  - a LaTeX comment (`% reply: ...`), invisible in the PDF.
-
-  If the chosen option needs a new package or macro, propose adding it to the preamble first.
-- One section or task per round. With "propose first", show the text or diff in chat, then apply only what was approved; options per proposal: apply, a variant, "Defer (keep as to-do)", "Won't do (decided)". With "write + git diff", edit, then summarise what changed and why, and point to anything that needs the authors' judgement.
+- **Replies to co-author comments.** When an edit fixes an issue raised in a co-author's comment, or answers it, add a brief reply next to the comment saying what was done or answering the question (e.g. "Done: rewritten as suggested, now uses Definition 2"). Never remove or edit the co-author's comment unless asked. Ask once how replies are written, matching what the project already uses: its author-note macro (e.g. `\AB{...}`), `todonotes` or `changes`, colored text, or a `% reply: ...` comment invisible in the PDF. If the choice needs a new package or macro, propose adding it to the preamble first.
+- One section or task per round. With "propose", show the text or diff in chat at the chosen size: one paragraph or one change (a rewritten paragraph, a moved block, a reworded claim), or the whole section; apply only what was approved before moving to the next; options per proposal: apply, a variant, "Defer (keep as to-do)", "Won't do (decided)". Mechanical fixes with no real alternative (typos, `~` before `\cite`, one spelling variant) may be grouped into one proposal that lists every item, so the user can approve all or pick a subset. With "write + git diff", edit, then summarise what changed and why, and point to anything that needs the authors' judgement.
 
 ## 5. Hard rules
 
@@ -89,14 +83,12 @@ If the request covers a single section, agreeing on that section's outline is en
 
 ## 6. Writing style
 
-Guidance, not rules: use these as defaults when writing new text, and as hints for what to look at when revising. The project's conventions and the authors' voice come first. Don't rewrite text only to make it fit these points; when copyediting or polishing, change only what is unclear, inconsistent or wrong. Many of these points follow E. Medvet's guide [How to write scientific documents](https://medvet.inginf.units.it/teaching/how-to-write/) (written for experimental computer-science papers); point users to it for details and examples.
-- **Flow and readability**: besides being technically clear, the text should be pleasant to read. Sentences and paragraphs connect (the reader knows why each one comes next), sections lead into each other, sentence length varies, and dense stretches of definitions or formulas get a sentence of motivation or intuition. Read the result as a reader would, start to finish.
-- **Paragraphs**: usually one main idea each, made clear early; a paragraph that mixes several ideas is worth flagging.
-- **No repetition**: don't restate the same content in several places (e.g. the introduction repeating the method section, or a definition given twice) beyond the usual overview in abstract, introduction and conclusion; avoid the same word or phrase in nearby sentences. Technical terms are the exception: keep them identical throughout rather than varying them for style.
-- **Abstract**: a common structure is general context, specific context, the gap or limitation, the proposal tied to that gap, the evaluation and its main results, optionally the broader impact.
-- **Tense**: common practice is present in abstract, introduction, problem statement and method; past for related work and for what was done in the experiments, present for commenting on results; past in the conclusions, future for future work. Above all, be consistent.
-- **Voice**: active voice and "we" usually read better for the authors' choices and claims; other authors as subject in related work ("Smith et al. showed…").
-- **Wording**: no contractions ("isn't"); one spelling variant (US or UK) throughout; commas around "e.g." and "i.e."; acronyms introduced at first use, then used consistently; no unsupported hype ("novel", "significantly" without a test, "clearly").
+Defaults for new text and hints when revising; the project's conventions and the authors' voice come first. When copyediting or polishing, change only what is unclear, inconsistent or wrong. Many points follow E. Medvet's [How to write scientific documents](https://medvet.inginf.units.it/teaching/how-to-write/); point users to it for details.
+- **Flow**: sentences, paragraphs and sections connect (the reader knows why each comes next); one main idea per paragraph; dense stretches of definitions or formulas get a sentence of motivation.
+- **No repetition** beyond the usual overview in abstract, introduction and conclusion; but keep technical terms identical throughout rather than varying them for style.
+- **Abstract**: context, the gap, the proposal tied to that gap, the evaluation and its main results.
+- **Tense and voice**: present for abstract, introduction and method; past for related work and what was done in experiments; be consistent. Active "we" for the authors' choices.
+- **Wording**: no contractions; one spelling variant (US or UK); commas around "e.g." and "i.e."; acronyms introduced at first use; no unsupported hype ("novel", "significantly" without a test, "clearly").
 - **Notation**: define every symbol before or right where it is first used; prefer one letter per entity, related quantities via subscripts (`n_\text{pop}`, not `pop`); words in math inside `\text{}` or `\mathrm{}`; `\max`, `\min` and `\DeclareMathOperator` for operators; follow the field's conventions.
 - **LaTeX typography**: `\dots` for ellipses; `\emph{}` for emphasis; blank lines for paragraphs, not `\\`; `` ``…'' `` for quotes; `\ ` after a period that does not end a sentence (`vs.\ `); `~` before references and citations; en-dash `--` for ranges, em-dash `---` for asides.
 
