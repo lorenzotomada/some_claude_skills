@@ -12,7 +12,7 @@ Verified on elsarticle 3.5 (TeX Live 2026) and checked against 3.3 (TeX Live 202
 \documentclass[final,3p,authoryear,nonatbib]{elsarticle}
 ```
 
-**biblatex.** Needs `nonatbib`. APA: `\usepackage[style=apa]{biblatex}` with `\parencite`/`\textcite`. Remove `doi=false`/`eprint=false` if DOIs or preprint IDs are required. To drop months, clear `month`, `labelmonth`, `labelday` and `day`. Switching to APA exposes Zotero leftovers (`note = {Publisher: …}`, DOIs stored as URLs, `edition = {0}`, `version: 1` in notes). Fields containing "and" need double braces (`publisher = {{Chapman and Hall/CRC}}`), or they print "Chapman; Hall/CRC". Check name casing (`HAN, XU`, lowercase names, particles like `{Henry de Frahan}, Marc T.`).
+**biblatex.** Needs `nonatbib`. APA: `\usepackage[style=apa]{biblatex}` with `\parencite`/`\textcite`. Remove `doi=false`/`eprint=false` if DOIs or preprint IDs are required. To drop months, clear `month`, `labelmonth`, `labelday` and `day`. Switching to APA exposes Zotero leftovers (`note = {Publisher: …}`, DOIs stored as URLs, `edition = {0}`, `version: 1` in notes). Fields containing "and" need double braces (`publisher = {{Chapman and Hall/CRC}}`), or they print "Chapman; Hall/CRC". Check name casing (`DOE, JANE`, lowercase names, particles like `{van der Berg}, Anna M.`).
 
 **Front matter.** Everything inside `frontmatter` (replaces `\maketitle`): `\author[a]`, `\affiliation[a]{organization=…, addressline=…, city=…, postcode=…, country=…}`, `\corref{cor1}` + `\cortext[cor1]{…}`, `\ead{…}`. Keywords in `\begin{keyword} … \sep … \end{keyword}`, not in the abstract. amsart's `\title[short]`, `\address`, `\email`, `amsaddr` don't work. Non-text in `\author` (ORCID icons, `\corref`, `\,`) must be inside `\texorpdfstring{…}{}`.
 
