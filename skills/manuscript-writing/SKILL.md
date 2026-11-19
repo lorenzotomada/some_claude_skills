@@ -23,12 +23,13 @@ When unclear, choose quick mode for requests about a single paragraph or section
    - one sentence per line in `.tex` files, or not;
    - existing macros, theorem environments, glossary/acronym commands, label prefixes;
    - comment/review macros (e.g. per-author note commands, `\TODO`) and which material is parked (e.g. a file not included in `main.tex`). This skill writes gaps as `\TODO{...}`: use the project's own TODO macro if it has one under another name; if it has none, propose adding `\newcommand{\TODO}[1]{\textcolor{red}{[TODO: #1]}}` (needs `xcolor`) to the preamble, and until it is approved use `% TODO: ...` comments, so the build never breaks on an undefined macro;
-   - how to build the paper (command, TeX version) and where the sources are also edited (Overleaf?). If co-authors edit elsewhere, pull first; stop and ask on merge conflicts.
+   - how to build the paper (command, TeX version) and where the sources are also edited (Overleaf?). If co-authors edit elsewhere, pull first; stop and ask on merge conflicts. After pulling, check what changed against `PAPER_PLAN.md` (§2).
 2. **Ask few questions up front.** Unless already recorded in `PAPER_PLAN.md`, ask only the **edit flow**: "Write into the files, I review with `git diff`" or "Propose in chat first, apply after approval" (without git, recommend the second, or a backup copy). Ask the other settings when they first matter, then record them so each is asked once:
    - target venue and audience: when drafting the outline or the abstract (they set length, depth and tone);
    - git handling of `PAPER_PLAN.md`: when first creating it (§2);
    - whether addressed TODOs may be removed: at the first addressed TODO (§4);
    - how replies to co-author comments are written: at the first one (§4);
+   - how the `.bib` is maintained: at the first citation task (§7);
    - who commits: default only the user, so ask only if the user mentions committing.
 3. **Questions vs findings.** Ask only about *decisions* that are the user's and block the current step (edit flow, outline, which of two conflicting numbers is right, whether to drop a claim). Everything else is a *finding*: missing material, symbols to define, math to check, assumptions to state. Findings go in the text as `\TODO` (§4), under "Open questions" in `PAPER_PLAN.md`, and in the round summary; they don't block the work.
    - Batch the decisions of a round into one set of questions (a few at a time), most important first.
@@ -42,12 +43,18 @@ Read in full the preamble and macros, the sections you will work on, the section
 ## 2. Planning file `PAPER_PLAN.md`
 
 Short (aim for under ~100 lines), in the project root; it survives interrupted sessions. Git handling as in `paper-submission-prep`: in a git repo, unless already recorded, ask whether it goes in `.git/info/exclude`, `.gitignore`, or is tracked; without git, ignore these rules. Sections:
-- **Settings**: the answers from §0.2 (edit flow, venue/audience, git handling, TODO removal, reply format, who commits) and the build command.
+- **Settings**: the answers from §0.2 (edit flow, venue/audience, git handling, TODO removal, reply format, `.bib` maintenance, who commits) and the build command.
 - **Story**: the paper in one paragraph, and the numbered contribution list.
 - **Outline**: one line per section: its purpose and which material goes there.
 - **Notation**: symbol, meaning, macro, only for symbols that are non-obvious, project-specific or at risk of clashing; one meaning per symbol. If the paper has a notation section or a macros file, point to it instead of copying it.
-- **Status**: per section: state, chosen intensity (§4), open TODOs.
+- **Status**: per section: state, chosen intensity (§4), open TODOs; in a git repo, the commit the status reflects.
 - **Open questions**: for the authors or co-authors, one line each; move to the status line once answered.
+
+When you create `PAPER_PLAN.md`, or change its story or outline, summarise it briefly in chat: the story in one or two sentences, the contribution list, the outline (one line per section), and only the open questions that block the next step. This summary is the proposal to agree on in §3. Then say that the full plan (notation, status, all open questions) is in `PAPER_PLAN.md`, and that the user can discuss any part in more detail or edit the file directly. Don't paste the whole file.
+
+When a session resumes from an existing `PAPER_PLAN.md`, read it first and open with a one-line status (e.g. "Resuming: Section 3 drafted, Section 4 next, 2 open questions"). The file as you find it is the reference, including any edits the user made directly.
+
+Keep the plan in sync with the text. On resume and after each pull, look at what changed since the recorded commit (`git diff <commit>`; without git, re-read the sections the plan marks as in progress) and update the status of the affected sections. Point out changes that disagree with the plan (a renamed symbol, a section that changed purpose, an open question answered in the text) instead of silently adopting or reverting them.
 
 ## 3. Story and outline before prose
 
@@ -98,7 +105,15 @@ Guidance, not rules: use these as defaults when writing new text, and as hints f
 - Mark claims that need support. Cite according to the generality of the claim: seminal papers, monographs or established reviews for general statements; the papers that actually establish a result for specific statements.
 - Propose specific references only after verifying them online (DOI, authors, title, year, venue: doi.org, Crossref, arXiv, publisher page). If you can't verify, including when web access is unavailable or blocked, leave `\TODO{cite: ...}` with what kind of reference is needed, say that verification couldn't be run, and never fill in metadata from memory.
 - Keep citation TODOs short, so the PDF stays readable (e.g. `\TODO{cite: DeepONet, FNO}`); put the full candidates (authors, title, venue, year, DOI) in your summary and under "Open questions" in `PAPER_PLAN.md`.
-- Add entries to the `.bib` only after approval, in the existing key and field style. Never fabricate an entry.
+- **How the `.bib` is maintained.** Unless recorded, ask at the first citation task whether the `.bib` is auto-exported from a reference manager (e.g. Zotero with Better BibTeX), exported manually from one, or edited by hand, and record it in Settings. Never modify the user's reference library yourself.
+  - Auto-exported: never edit the `.bib`, since changes would be overwritten at the next export. List the fixes and new entries for the user to make in the reference manager. Changing the year or authors there can change the generated citation key and break `\cite` commands: point this out, and suggest pinning the old key (Better BibTeX supports pinned keys) or offer to update the `\cite` commands.
+  - Exported manually: fixes made in the `.bib` are lost at the next export, so also list them for the user to make in the reference manager.
+- Add entries to the `.bib` only after approval (unless it is auto-exported), in the existing key and field style. Never fabricate an entry.
+- **Bibliography refresh** (on request, or offered in §8): look for stale entries (preprints that now have a published version, wrong year or venue, missing DOI) and duplicates (the same paper under two keys, typically a preprint and its published version). Compare against the user's library when it is reachable (a Zotero MCP server, Zotero's local API at `http://localhost:23119/api/` with Zotero open and the local API enabled, or a Better BibTeX export) and against arXiv and Crossref. The library shows what the user has, not what is correct: verify metadata online as above before proposing it.
+  - Read the library only. Use the Zotero web API only if the user asks, since it needs an API key and sends requests to zotero.org.
+  - If the library isn't reachable, or there is none, say so and check online sources only.
+  - Report each stale entry with the proposed replacement and its source, and keep its citation key. For duplicates, propose keeping the journal or conference version under one key and updating the `\cite` commands that use the other.
+  - Apply only what is approved, following how the `.bib` is maintained (above).
 
 ## 8. Consistency passes
 
@@ -108,7 +123,8 @@ On request, or at the end of a round of drafting:
 - abstract, introduction and conclusion against the contribution list;
 - claims against the numbers in tables and figures;
 - tense and person (§6);
-- repetitions across sections, and how the sections flow into each other.
+- repetitions across sections, and how the sections flow into each other;
+- the bibliography refresh (§7): offer it, and run it only if the user agrees.
 
 Report findings as a list with locations; fix only what the user approves (or what the chosen edit flow allows).
 
@@ -123,6 +139,6 @@ After each round, build with the project's command (ask if unknown). Check the l
 
 ## 11. End of each round
 
-List the changed files and summarise what was drafted or revised, what was flagged, and what is next. In a git repo, remind the user to commit; if they use Overleaf, to sync too. Never commit unless explicitly asked, and only what was asked.
+Update Status and Open questions in `PAPER_PLAN.md` (with the current commit, in a git repo). List the changed files and summarise what was drafted or revised, what was flagged, and what is next. In a git repo, remind the user to commit; if they use Overleaf, to sync too. Never commit unless explicitly asked, and only what was asked.
 
 Once per paper, remind the authors to check the venue's policy on AI-assisted writing and whether it must be disclosed.
