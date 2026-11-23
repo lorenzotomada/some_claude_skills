@@ -10,7 +10,7 @@ description: "Project-specific plotting conventions for this repo (a method for 
 Apply the general `plotting` skill first; this file only adds what is specific to this repo.
 
 ## Where the code lives
-- Helpers: `package/utils/plot_style.py`. If it does not exist yet, create it from the helper block of the `plotting` skill plus `plot_fields` below.
+- Helpers: `package/utils/plot_style.py`. If it does not exist yet, copy `scripts/plot_style.py` of the `plotting` skill and add `plot_fields` below.
 - `package/utils/plotting.py` is legacy: it predates the rules (uses `jet`, font size 14 in places, some titles, `plt.show()`). When you touch one of its functions, bring that function in line with the rules; do not restyle the whole file in passing.
 - Its functions call `plt.show()`: run scripts with `MPLBACKEND=Agg`.
 
