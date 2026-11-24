@@ -1,0 +1,136 @@
+% Example response (revision) letter: a cover letter to the editors, then one
+% section per reviewer. Each reviewer's comments are quoted verbatim in that
+% reviewer's color, numbered by page or section as in the report; each reply
+% follows in black. All names, addresses and comments below are placeholders.
+\documentclass[sigleft]{letter}
+\usepackage[hidelinks]{hyperref}
+\usepackage{microtype}
+\usepackage{amsmath}
+\usepackage{bm}
+\usepackage{xcolor}
+\usepackage[a4paper,left=2.5cm,right=2.5cm,top=2.5cm,bottom=2.5cm]{geometry}
+
+% The letter class has no sections: define \section and \subsection.
+\newcounter{section}
+\newcounter{subsection}[section]
+\setcounter{secnumdepth}{3}
+
+\makeatletter
+% Opening: place and date on the left, sender's address on the right.
+\renewcommand*{\opening}[1]{\ifx\@empty\fromaddress%
+  \thispagestyle{firstpage}%
+    {\raggedleft\@date\par}%
+  \else%
+   \thispagestyle{empty}%
+   {%
+    \begin{minipage}[c]{0.70\linewidth}
+    \vspace{-3cm}
+    City, \@date\\[2ex]
+    \toname \\
+    \toaddress
+    \end{minipage}
+    \begin{minipage}[c]{0.25\linewidth}
+    \raggedleft\begin{tabular}{l@{}}\ignorespaces
+    \fromaddress\\[0.0em]
+    \end{tabular}
+    \end{minipage}
+    \par
+}%
+  \fi
+  \vspace{2\parskip}%
+  #1\par\nobreak}
+
+\newcommand\section{\@startsection{section}{1}{\z@}%
+                                  {-3.5ex \@plus -1ex \@minus -.2ex}%
+                                  {2.3ex \@plus.2ex}%
+                                  {\normalfont\Large\bfseries}}
+\newcommand\subsection{\@startsection{subsection}{2}{\z@}%
+                                     {-3.25ex\@plus -1ex \@minus -.2ex}%
+                                     {1.5ex \@plus .2ex}%
+                                     {\normalfont\large\bfseries}}
+\renewcommand\thesection{\@arabic\c@section}
+\renewcommand\thesubsection{\thesection.\@arabic\c@subsection}
+\makeatother
+
+% One color per reviewer, used for the section title and the quoted comments.
+% The color of \reviewerA is also the one used in the manuscript for changes.
+\newcommand{\reviewerA}[1]{{\color{blue}#1}}
+\newcommand{\reviewerB}[1]{{\color{red}#1}}
+\newenvironment{quoteA}{\begin{quote}\itshape\color{blue}}{\end{quote}}
+\newenvironment{quoteB}{\begin{quote}\itshape\color{red}}{\end{quote}}
+% Replies, nested inside the reviewer's quote environment.
+\newenvironment{reply}{\begin{quote}\upshape\color{black}}{\end{quote}}
+
+\signature{Corresponding Author\\on behalf of the co-authors,\\Second Author and\\Third Author.\\[2ex]}
+\address{ }
+
+\begin{document}
+
+\begin{letter}{}
+\opening{Dear Editor,}
+
+Subject: submission of the revised manuscript ``Title of the manuscript''.
+
+We are submitting a revised version of the manuscript ``\textit{Title of the manuscript}''.
+We addressed the reviewers' suggestions and revised the manuscript to improve its clarity and completeness.
+In particular, we [one or two sentences summarising the main changes].
+
+We attach a letter of response to the reviewers describing the modifications we made, with the changes to the manuscript highlighted in \reviewerA{blue}.
+
+We thank you and the reviewers for the time and attention devoted to our manuscript.
+
+\closing{Sincerely yours,}
+
+\noindent
+\emph{Corresponding author's address}:
+
+\noindent
+Corresponding Author\\
+Department, Institution\\
+Street, Postcode, City, Country\\
+E-mail: author@example.org
+
+\end{letter}
+
+\newpage
+
+\reviewerA{\section{Reviewer \#1}}
+
+We thank the reviewer for the time spent reading and commenting on the manuscript. We start by quoting the general comment,
+
+\begin{quoteA}
+``The paper proposes a reduced-order model for parametrised problems on unstructured meshes. The method is interesting and the paper is well written. I recommend publication after the minor issues below are addressed.''
+\end{quoteA}
+
+We address the specific comments below.
+\begin{quoteA}
+Specific comments:
+\begin{enumerate}
+\item[p. 4] The update rule in Equation (2) adds the time derivative to the state without multiplying it by $\Delta t$. Shouldn't it be $\bm u_{k+1} = \bm u_k + \Delta t\, f(\bm u_k)$?
+\begin{reply}
+We thank the reviewer for spotting this inconsistency: with our notation, the update indeed reads $\bm u_{k+1} = \bm u_k + \Delta t\, f(\bm u_k)$, since the network learns the time derivative itself.
+We corrected Equation (2) in Subsection 1.1.
+% Keep the new text of the manuscript here, commented, for the co-authors:
+% ``... allowing the solution to be updated as $\bm u_{k+1}=\bm u_k+\Delta t\, f(\bm u_k)$.''
+\end{reply}
+\item[p. 12] ``among these two choices'' $\rightarrow$ ``between these two choices''
+\begin{reply}
+Thank you for spotting the typo; we corrected it as suggested.
+\end{reply}
+\end{enumerate}
+\end{quoteA}
+
+\reviewerB{\section{Reviewer \#2}}
+
+We thank the reviewer for the comments, which we address below.
+
+\begin{quoteB}
+\begin{enumerate}
+\item[Sec. 3] [Comment quoted verbatim.]
+\begin{reply}
+[Reply, and where the manuscript changed.]
+\end{reply}
+\end{enumerate}
+\end{quoteB}
+
+\end{document}

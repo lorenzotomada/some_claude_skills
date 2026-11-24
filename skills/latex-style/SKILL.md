@@ -13,7 +13,7 @@ The project's conventions (its `CLAUDE.md`, macros and existing text) come first
 
 1. **Use what the project already has**: existing macros and environments rather than new ones, the commands of the acronym package in use (e.g. `\gls`, `\ac`) rather than hand-written acronyms, existing label prefixes, one sentence per line if that is the convention. If a convention you need is missing (language, spelling variant, one sentence per line), follow the existing text, or ask if there is none. If the paper has many acronyms written by hand and loads no acronym package, you may suggest the `glossaries` or `acronym` LaTeX package.
 2. **Never change the preamble without asking**: no new `\usepackage`, `\newcommand` or `\DeclareMathOperator` unless the user agrees.
-3. **Keep diffs clean**: keep existing `%` comments (a style edit is not a reason to remove them) and don't rewrap or reformat lines you didn't change.
+3. **Keep diffs clean**: keep existing `%` comments (a style edit is not a reason to remove them) and don't rewrap or reformat lines you didn't change. Leave comment and reply macros (e.g. `\XX{...}`, `\todo{...}`) untouched: answering them is a separate task (the `rebuttal` skill, if present).
 
 ## Style
 
