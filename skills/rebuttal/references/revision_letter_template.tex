@@ -52,12 +52,18 @@
 \renewcommand\thesubsection{\thesection.\@arabic\c@subsection}
 \makeatother
 
-% One color per reviewer, used for the section title and the quoted comments.
-% The color of \reviewerA is also the one used in the manuscript for changes.
-\newcommand{\reviewerA}[1]{{\color{blue}#1}}
-\newcommand{\reviewerB}[1]{{\color{red}#1}}
-\newenvironment{quoteA}{\begin{quote}\itshape\color{blue}}{\end{quote}}
-\newenvironment{quoteB}{\begin{quote}\itshape\color{red}}{\end{quote}}
+% Colors: one per reviewer (section title and quoted comments), and one,
+% different from all of them, for the changes in the manuscript (use the same
+% color in the manuscript's change macro, e.g. \rev). Add reviewerC etc. with
+% further distinct colors if needed.
+\colorlet{reviewerAcolor}{blue}
+\colorlet{reviewerBcolor}{red}
+\colorlet{revisedcolor}{teal!80!black}
+\newcommand{\reviewerA}[1]{{\color{reviewerAcolor}#1}}
+\newcommand{\reviewerB}[1]{{\color{reviewerBcolor}#1}}
+\newcommand{\revised}[1]{{\color{revisedcolor}#1}}
+\newenvironment{quoteA}{\begin{quote}\itshape\color{reviewerAcolor}}{\end{quote}}
+\newenvironment{quoteB}{\begin{quote}\itshape\color{reviewerBcolor}}{\end{quote}}
 % Replies, nested inside the reviewer's quote environment.
 \newenvironment{reply}{\begin{quote}\upshape\color{black}}{\end{quote}}
 % Placeholders for replies still waiting for the authors.
@@ -77,7 +83,8 @@ We are submitting a revised version of the manuscript ``\textit{Title of the man
 We addressed the reviewers' suggestions and revised the manuscript to improve its clarity and completeness.
 In particular, we [one or two sentences summarising the main changes].
 
-We attach a letter of response to the reviewers describing the modifications we made, with the changes to the manuscript highlighted in \reviewerA{blue}.
+We attach a letter of response to the reviewers describing the modifications we made.
+In the manuscript, all changes are highlighted in \revised{teal}; in this letter, the comments of the first and second reviewer are shown in \reviewerA{blue} and \reviewerB{red}, respectively, followed by our answers in black.
 
 We thank you and the reviewers for the time and attention devoted to our manuscript.
 
