@@ -34,7 +34,7 @@ In a first session (no `rebuttal/STATUS.md` yet), the first question is the mode
 6. **Git and Overleaf**: how git handles `rebuttal/`: `.git/info/exclude` (local, never pushed; recommended with Overleaf), `.gitignore`, or tracked; whether the project syncs with Overleaf (then pull first, stop on merge conflicts). Don't ask about commits (§7).
 7. **Archive**: "Keep `ARCHIVE.md` (Recommended)", one line per settled issue, or "Delete settled issues from `OPEN.md`", relying on the `STATUS.md` index and git.
 
-The edit flow is fixed: propose in chat, apply after approval. If several main files (e.g. `main.tex` and a journal version) `\input` the same sources, preamble changes go in each of them.
+The edit flow is fixed: propose in chat, apply after approval. If there are several main files (e.g. `main.tex` and a journal version), ask which ones the revision targets (often all that `\input` the edited sources, or what the journal requests): preamble changes go in each of those, and builds cover them all.
 
 ## 1. Intake: the issue list
 
@@ -44,6 +44,8 @@ The edit flow is fixed: propose in chat, apply after approval. If several main f
 - Before showing a quote, verify it: grep a short distinctive phrase to find the line (quotes often span lines), then compare the full quote with whitespace collapsed. If not found, don't present it as a quote; say so and give the location only.
 
 **Atomic issues**: one per request; a comment asking for two things becomes `R2.3a`, `R2.3b`, sharing the quote. **IDs** are stable and never reused: `R<reviewer>.<n>` (`E.<n>` for the editor) in report order; `<MACRO>.<n>` (e.g. `XX.4`) for in-text comments, in source order.
+
+**A new round of review** (new reports after a revision was submitted): keep the previous round's files as a read-only record, save the new reports in `reviews/round2/`, prefix the new IDs with the round (`2R1.3`), and start a new index in `STATUS.md`, linking to an earlier issue when a reviewer comes back to it.
 
 **Each issue records**: the quote and its location; for in-text comments an **anchor** (a short distinctive phrase, to find the comment after lines shift); the paper location and snippet (`sec3.tex:120-124`, or "general"; in the index, file and section rather than lines, which shift); category; owner.
 
@@ -108,12 +110,12 @@ Options: "Apply as proposed (Recommended)", variants, "Defer", "Discuss with co-
 - Compile on a copy in the chosen build folder, never in the user's tree (excluding `.git`, `rebuttal/` and the build folder).
 - Build a baseline from the sources as they were before any change (including approved preamble changes; e.g. from `git archive HEAD`); after each change compare errors, undefined references and citations, new warnings (e.g. overfull boxes), page count. Errors already in the baseline: report once, record in Settings, fix only if asked.
 - A check that prints nothing is not a pass. BibTeX's "I found no \citation commands" is not an error when nothing is cited yet. If something can't be compiled or tested, say so. biber on macOS (universal TeX Live binary) may fail with "extracting arm64 binary with lipo failed": run `lipo "$(which biber)" -thin arm64 -output <build>/biber-arm64` and use that binary, without changing the user's system.
-
 **Overleaf**: pull before starting, stop and ask on merge conflicts. If the user brings files back from Overleaf, re-check only those files for applied changes.
 
 **End of each round**: compile (if chosen) and report plainly; update `STATUS.md` (with the commit) and move settled entries to `ARCHIVE.md` or delete them (§0.7); list every changed file and `git diff --stat`, reminding the user to commit them all and push or sync with Overleaf (uncommitted changes are easily lost); summarise applied, deferred, to discuss, declined, and what is next.
 
 **End of the revision**, offer:
+- a draft of the cover letter's summary of the main changes (if the letter has one), built only from `applied` issues, for the user to approve;
 - a latexdiff PDF against the submitted version, if the journal wants one: on a copy with `.git` outside the user's tree, run `latexdiff-vc --git --flatten -r <commit> main.tex` and compile the result (say so if `latexdiff` is missing);
 - a final check: no commenter macros (`\XX{`) left that should be addressed, no `\TODO` in letter or paper, every issue `applied`, `declined`, `answer-only`, or left open by the user's choice.
 
@@ -124,7 +126,7 @@ Options: "Apply as proposed (Recommended)", variants, "Defer", "Discuss with co-
 - **The letter never claims** a change that wasn't applied.
 - **One decision per issue**, except approved mechanical batches; never infer approval from silence, an earlier approval or a related answer.
 - **Ask before any preamble change** (packages, macros, colors), in the manuscript and the letter alike (e.g. a `\TODO` macro the template lacks).
-- **No new claims in drafted text**: new text may not promote a statement the paper doesn't support (e.g. "negligible cost" with no timings) to a contribution or a stronger claim.
+- **No new claims in drafted text**: new text may not promote a statement the paper doesn't support (e.g. "negligible cost" with no timings) to a contribution or a stronger claim. Untested ideas are written as such ("could", "we did not test"); examples or methods taken from the reviewer get a `\TODO{cite: ...}` rather than going in uncited.
 - **Never edit or delete** a commenter's text unless asked.
 - **Never commit** unless explicitly asked, and then only what was asked; a request covers that commit, not later ones.
 - Say when something is your suggestion rather than what the reviewer asked for.
